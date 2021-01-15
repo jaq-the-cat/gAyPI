@@ -3,7 +3,6 @@
 */
 
 use actix_web::*;
-use serde::Deserialize;
 
 mod errors;
 mod flags;

@@ -1,5 +1,3 @@
-use serde::Serialize;
-
 #[macro_export]
 macro_rules! flags {
     ($flag: expr) => {{
@@ -16,22 +14,4 @@ macro_rules! flags {
             _ => vec![],
         }
     }};
-}
-
-#[derive(Serialize)]
-pub struct PrideFlag {
-    name: &'static str,
-    colors: Vec<&'static str>,
-    stripes: usize,
-}
-
-impl PrideFlag {
-    pub fn new(name: &'static str, colors: Vec<&'static str>) -> Self {
-        let len = colors.len();
-        Self {
-            name,
-            colors,
-            stripes: len,
-        }
-    }
 }
