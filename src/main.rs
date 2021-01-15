@@ -14,12 +14,6 @@ pub fn is_valid(sx: &str) -> bool {
     ["gay", "lesbian", "bi", "pan", "ace", "cis", "trans"].contains(&sx)
 }
 
-#[derive(Deserialize)]
-struct GayInfo {
-    gender: String,
-    sexuality: String,
-}
-
 #[get("/")]
 async fn hi(_: HttpRequest) -> impl Responder {
     HttpResponse::Ok().json(map![
@@ -27,28 +21,30 @@ async fn hi(_: HttpRequest) -> impl Responder {
     ])
 }
 
-#[get("/info")]
-async fn gayinfo(info: web::Json<GayInfo>) -> impl Responder {
-    if !is_valid(&info.gender) {
+#[get("/gender")]
+async fn gender(gender: web::Json<String>) -> impl Responder {
+    if !is_valid(&gender[..]) {
         return HttpResponse::NotFound().json(map![
             "error" => Errors::GenderNotFound
         ]);
-    } else if !is_valid(&info.sexuality) {
+    }
+    HttpResponse::Ok().json(flags!(&gender[..]))
+}
+
+#[get("/sexuality")]
+async fn sexuality(sexuality: web::Json<String>) -> impl Responder {
+    if !is_valid(&sexuality[..]) {
         return HttpResponse::NotFound().json(map![
-            "error" => Errors::SexualityNotFound
+            "error" => Errors::GenderNotFound
         ]);
     }
-
-    return HttpResponse::Ok().json(map![
-        "gender" => flags!(&info.gender[..]),
-        "sexuality" => flags!(&info.sexuality[..])
-    ]);
+    HttpResponse::Ok().json(flags!(&sexuality[..]))
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     println!("Starting gAyPI server");
-    HttpServer::new(|| App::new().service(hi).service(gayinfo))
+    HttpServer::new(|| App::new().service(hi).service(gender).service(sexuality))
         .bind(("127.0.0.1", 8000))?
         .run()
         .await
