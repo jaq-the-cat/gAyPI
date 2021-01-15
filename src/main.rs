@@ -1,9 +1,13 @@
-// Provides gay through an easy-to-use REST API!
-
-use actix_web::*;
-use serde::{Deserialize, Serialize};
+/*
+ * Provides gay through an easy-to-use REST API!
+*/
 
 mod sexualities;
+
+use actix_web::*;
+use serde::Deserialize;
+
+use sexualities as sx;
 
 macro_rules! json {
     ($( $key: expr => $val: expr ),*) => {{
@@ -26,7 +30,7 @@ async fn hi(_: HttpRequest) -> impl Responder {
 
 #[get("/info/{gender}/{sexuality}")]
 async fn gayinfo(info: web::Path<GayInfo>) -> impl Responder {
-    return if sexualities::Sexualities::is_valid(&info.sexuality) {
+    return if sx::Sexualities::is_valid(&info.sexuality) {
         HttpResponse::Ok().json([info.gender.clone(), info.sexuality.clone()])
     } else {
         HttpResponse::NotFound()
