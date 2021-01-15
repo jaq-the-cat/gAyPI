@@ -7,10 +7,12 @@ use serde::Deserialize;
 
 mod errors;
 mod flags;
-mod sexualities;
 mod useful;
 use errors::Errors;
-use sexualities as sx;
+
+pub fn is_valid(sx: &str) -> bool {
+    ["gay", "lesbian", "bi", "pan", "ace", "cis", "trans"].contains(&sx)
+}
 
 #[derive(Deserialize)]
 struct GayInfo {
@@ -25,20 +27,20 @@ async fn hi(_: HttpRequest) -> impl Responder {
 
 #[get("/info/{gender}/{sexuality}")]
 async fn gayinfo(info: web::Path<GayInfo>) -> impl Responder {
-    let response: HttpResponse;
-
-    if sx::is_valid(&info.sexuality) {
-        response = HttpResponse::Ok().json(map![
-            "gender" => flags!(&info.gender[..]),
-            "sexuality" => flags!(&info.sexuality[..])
+    if !is_valid(&info.gender) {
+        return HttpResponse::NotFound().json(map![
+            "error" => Errors::GenderNotFound
         ]);
-    } else {
-        response = HttpResponse::NotFound().json(map![
+    } else if !is_valid(&info.sexuality) {
+        return HttpResponse::NotFound().json(map![
             "error" => Errors::SexualityNotFound
         ]);
-    };
+    }
 
-    response
+    return HttpResponse::Ok().json(map![
+        "gender" => flags!(&info.gender[..]),
+        "sexuality" => flags!(&info.sexuality[..])
+    ]);
 }
 
 #[actix_web::main]
