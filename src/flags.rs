@@ -1,6 +1,4 @@
-use crate::map;
 use serde::Serialize;
-use std::collections::HashMap;
 
 #[macro_export]
 macro_rules! flags {

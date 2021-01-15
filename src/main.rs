@@ -22,7 +22,9 @@ struct GayInfo {
 
 #[get("/")]
 async fn hi(_: HttpRequest) -> impl Responder {
-    HttpResponse::Ok().json("https://github.com/jaq-the-cat/gaypi")
+    HttpResponse::Ok().json(map![
+        "docs" => "https://github.com/jaq-the-cat/gaypi"
+    ])
 }
 
 #[get("/info")]
