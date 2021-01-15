@@ -1,5 +1,5 @@
 /*
- * Provides gay through an easy-to-use REST API!
+ * Provides gay through an easy-to-use API
 */
 
 use actix_web::*;
