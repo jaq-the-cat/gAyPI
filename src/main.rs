@@ -25,8 +25,8 @@ async fn hi(_: HttpRequest) -> impl Responder {
     HttpResponse::Ok().json("Hello")
 }
 
-#[get("/info/{gender}/{sexuality}")]
-async fn gayinfo(info: web::Path<GayInfo>) -> impl Responder {
+#[get("/info")]
+async fn gayinfo(info: web::Json<GayInfo>) -> impl Responder {
     if !is_valid(&info.gender) {
         return HttpResponse::NotFound().json(map![
             "error" => Errors::GenderNotFound
