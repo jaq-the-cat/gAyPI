@@ -8,16 +8,9 @@ use serde::Deserialize;
 mod errors;
 mod flags;
 mod sexualities;
+mod useful;
 use errors::Errors;
 use sexualities as sx;
-
-macro_rules! json {
-    ($( $key: expr => $val: expr ),*) => {{
-         let mut map = ::std::collections::HashMap::new();
-         $( map.insert($key, $val); )*
-         map
-    }}
-}
 
 #[derive(Deserialize)]
 struct GayInfo {
@@ -37,7 +30,7 @@ async fn gayinfo(info: web::Path<GayInfo>) -> impl Responder {
     if sx::is_valid(&info.sexuality) {
         response = HttpResponse::Ok().json([info.gender.clone(), info.sexuality.clone()]);
     } else {
-        response = HttpResponse::NotFound().json(json![
+        response = HttpResponse::NotFound().json(map![
             "error" => Errors::SexualityNotFound
         ]);
     };

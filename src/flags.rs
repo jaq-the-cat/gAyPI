@@ -1,3 +1,25 @@
+use crate::map;
+use serde::Serialize;
+use std::collections::HashMap;
+
+#[macro_export]
+macro_rules! flags {
+    ($flag: expr) => {{
+        match $flag {
+            "gay" => [
+                "#E40203", "#FF8B00", "#FEED00", "#008026", "#004DFF", "#750686",
+            ],
+            "lesbian" => ["#D52D00", "#FF9A56", "#FFFFFF", "#D362A4", "#A30262"],
+            "bi" => ["#D80271", "#D80271", "#734F95", "#0038A7", "#0038A7"],
+            "pan" => ["#FF228C", "#FFD900", "#1BB3FF"],
+            "ace" => ["#000000", "#A2A2A2", "#FFFFFF", "#80007E"],
+            "trans" => ["#5AC9F4", "#EFA4B3", "#FBFBFB", "#EFA4B3", "#5AC9F4"],
+            _ => [],
+        }
+    }};
+}
+
+#[derive(Serialize)]
 pub struct PrideFlag {
     name: &'static str,
     colors: Vec<&'static str>,
@@ -13,42 +35,4 @@ impl PrideFlag {
             stripes: len,
         }
     }
-}
-
-pub fn gay() -> PrideFlag {
-    PrideFlag::new(
-        "gay",
-        vec![
-            "#E40203", "#FF8B00", "#FEED00", "#008026", "#004DFF", "#750686",
-        ],
-    )
-}
-
-pub fn lesbian() -> PrideFlag {
-    PrideFlag::new(
-        "lesbian",
-        vec!["#D52D00", "#FF9A56", "#FFFFFF", "#D362A4", "#A30262"],
-    )
-}
-
-pub fn bi() -> PrideFlag {
-    PrideFlag::new(
-        "bi",
-        vec!["#D80271", "#D80271", "#734F95", "#0038A7", "#0038A7"],
-    )
-}
-
-pub fn pan() -> PrideFlag {
-    PrideFlag::new("pan", vec!["#FF228C", "#FFD900", "#1BB3FF"])
-}
-
-pub fn ace() -> PrideFlag {
-    PrideFlag::new("ace", vec!["#000000", "#A2A2A2", "#FFFFFF", "#80007E"])
-}
-
-pub fn trans() -> PrideFlag {
-    PrideFlag::new(
-        "trans",
-        vec!["#5AC9F4", "#EFA4B3", "#FBFBFB", "#EFA4B3", "#5AC9F4"],
-    )
 }
