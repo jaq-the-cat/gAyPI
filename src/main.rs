@@ -1,15 +1,18 @@
 // Provides gay through an easy-to-use REST API!
+use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer, Responder};
+use serde::Serialize;
 
-#![feature(proc_macro_hygiene, decl_macro)]
+#[derive(Serialize)]
+struct Message(&'static str);
 
-#[macro_use]
-extern crate rocket;
-
-#[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
+async fn hi(_: HttpRequest) -> impl Responder {
+    HttpResponse::Ok().body(web::Json(Message("Hello")))
 }
 
-fn main() {
-    rocket::ignite().mount("/", routes![index]).launch();
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    HttpServer::new(|| App::new().route("/", web::get().to(hi)))
+        .bind(("127.0.0.1", 8000))?
+        .run()
+        .await
 }
