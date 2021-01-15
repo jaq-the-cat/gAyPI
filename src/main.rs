@@ -2,12 +2,9 @@
 use actix_web::*;
 use serde::Serialize;
 
-#[derive(Serialize)]
-struct Message(&'static str);
-
 #[get("/")]
 async fn hi(_: HttpRequest) -> impl Responder {
-    HttpResponse::Ok().json(Message("Hello"))
+    HttpResponse::Ok().json("Hello")
 }
 
 #[actix_web::main]
