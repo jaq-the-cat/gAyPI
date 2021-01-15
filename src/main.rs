@@ -28,7 +28,10 @@ async fn gayinfo(info: web::Path<GayInfo>) -> impl Responder {
     let response: HttpResponse;
 
     if sx::is_valid(&info.sexuality) {
-        response = HttpResponse::Ok().json([info.gender.clone(), info.sexuality.clone()]);
+        response = HttpResponse::Ok().json(map![
+            "gender" => info.gender.clone(),
+            "sexuality" => format!("{:?}", flags!(&info.sexuality[..]))
+        ]);
     } else {
         response = HttpResponse::NotFound().json(map![
             "error" => Errors::SexualityNotFound
