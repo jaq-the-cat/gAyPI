@@ -34,7 +34,7 @@ async fn hi(_: HttpRequest) -> impl Responder {
 async fn gayinfo(info: web::Path<GayInfo>) -> impl Responder {
     let response: HttpResponse;
 
-    if sx::Sexualities::is_valid(&info.sexuality) {
+    if sx::is_valid(&info.sexuality) {
         response = HttpResponse::Ok().json([info.gender.clone(), info.sexuality.clone()]);
     } else {
         response = HttpResponse::NotFound().json(json![
