@@ -6,6 +6,7 @@ use actix_web::*;
 use serde::Deserialize;
 
 mod errors;
+mod flags;
 mod sexualities;
 use errors::Errors;
 use sexualities as sx;
@@ -40,6 +41,7 @@ async fn gayinfo(info: web::Path<GayInfo>) -> impl Responder {
             "error" => Errors::SexualityNotFound
         ]);
     };
+
     response
 }
 
