@@ -14,6 +14,7 @@ macro_rules! flags {
             "pan" => vec!["#FF228C", "#FFD900", "#1BB3FF"],
             "ace" => vec!["#000000", "#A2A2A2", "#FFFFFF", "#80007E"],
             "trans" => vec!["#5AC9F4", "#EFA4B3", "#FBFBFB", "#EFA4B3", "#5AC9F4"],
+            "cis" => vec!["#D70170", "#0038A7"],
             _ => vec![],
         }
     }};
