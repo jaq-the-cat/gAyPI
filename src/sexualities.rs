@@ -1,6 +1,4 @@
-use std::fmt;
-
-enum Sexualities {
+pub enum Sexualities {
     Gay,
     Lesbian,
     Bi,
@@ -8,20 +6,20 @@ enum Sexualities {
     Ace,
 }
 
-impl fmt::Display for Sexualities {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{:?}", self)
-    }
-}
-
 impl Sexualities {
-    fn get_names(&self) -> Vec<String> {
-        match self {
-            Self::Gay => vec!["gay", "homosexual"],
-            Self::Lesbian => vec!["lesbian", "homosexual"],
-            Self::Bi => vec!["bi", "bisexual"],
-            Self::Pan => vec!["pan", "pansexual"],
-            Self::Ace => vec!["ace", "asexual"],
-        }
+    pub fn is_valid(sx: &String) -> bool {
+        [
+            "gay".to_string(),
+            "homosexual".to_string(),
+            "lesbian".to_string(),
+            "homosexual".to_string(),
+            "bi".to_string(),
+            "bisexual".to_string(),
+            "pan".to_string(),
+            "pansexual".to_string(),
+            "ace".to_string(),
+            "asexual".to_string(),
+        ]
+        .contains(&sx)
     }
 }
