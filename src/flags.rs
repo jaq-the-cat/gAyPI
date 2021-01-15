@@ -45,3 +45,10 @@ pub fn pan() -> PrideFlag {
 pub fn ace() -> PrideFlag {
     PrideFlag::new("ace", vec!["#000000", "#A2A2A2", "#FFFFFF", "#80007E"])
 }
+
+pub fn trans() -> PrideFlag {
+    PrideFlag::new(
+        "trans",
+        vec!["#5AC9F4", "#EFA4B3", "#FBFBFB", "#EFA4B3", "#5AC9F4"],
+    )
+}
