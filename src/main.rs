@@ -2,11 +2,12 @@
  * Provides gay through an easy-to-use REST API!
 */
 
-mod sexualities;
-
 use actix_web::*;
 use serde::Deserialize;
 
+mod errors;
+mod sexualities;
+use errors::Errors;
 use sexualities as sx;
 
 macro_rules! json {
@@ -30,15 +31,16 @@ async fn hi(_: HttpRequest) -> impl Responder {
 
 #[get("/info/{gender}/{sexuality}")]
 async fn gayinfo(info: web::Path<GayInfo>) -> impl Responder {
-    return if sx::Sexualities::is_valid(&info.sexuality) {
-        HttpResponse::Ok().json([info.gender.clone(), info.sexuality.clone()])
+    let response: HttpResponse;
+
+    if sx::Sexualities::is_valid(&info.sexuality) {
+        response = HttpResponse::Ok().json([info.gender.clone(), info.sexuality.clone()]);
     } else {
-        HttpResponse::NotFound()
-            .status(http::StatusCode::NOT_FOUND)
-            .json(json![
-                "error" => "sexual orientation not found"
-            ])
+        response = HttpResponse::NotFound().json(json![
+            "error" => Errors::SexualityNotFound
+        ]);
     };
+    response
 }
 
 #[actix_web::main]
