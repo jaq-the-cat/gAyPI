@@ -47,10 +47,10 @@ async fn sexuality(sxs: web::Json<Vec<String>>) -> impl Responder {
 
 #[get("/rights")]
 async fn rights(who: web::Json<Vec<String>>) -> impl Responder {
-    let mut json: HashMap<&str, &str> = HashMap::new();
+    let mut json: HashMap<&str, bool> = HashMap::new();
     for el in who.iter() {
         if is_valid(el) {
-            json.insert(&el[..], "all");
+            json.insert(&el[..], true);
         } else {
             return HttpResponse::NotFound().json(Errors::GenderOrSexualityNotFound);
         }
