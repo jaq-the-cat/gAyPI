@@ -4,4 +4,5 @@ use serde::Serialize;
 pub enum Errors {
     GenderNotFound,
     SexualityNotFound,
+    GenderOrSexualityNotFound,
 }
