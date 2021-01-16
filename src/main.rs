@@ -101,6 +101,7 @@ async fn main() -> std::io::Result<()> {
             .service(gender)
             .service(sexuality)
             .service(rights)
+            .service(is_good)
     })
     .bind(("127.0.0.1", 8000))?
     .run()
