@@ -60,33 +60,33 @@ async fn rights(who: web::Json<Vec<String>>) -> impl Responder {
 
 #[get("/isgood")]
 async fn is_good(what: web::Json<Vec<String>>) -> impl Responder {
-    let mut results: Vec<&str> = Vec::new();
+    let mut results: Vec<Option<bool>> = Vec::new();
     for thing in what.iter() {
         results.push(match &thing.to_lowercase()[..] {
-            "lgbt" => "yes",
-            "lgbt+" => "yes",
-            "lgbtq" => "yes",
-            "lgbtq+" => "yes",
-            "lgbtqi" => "yes",
-            "lgbtqi+" => "yes",
-            "lgbtqia" => "yes",
-            "lgbtqia+" => "yes",
-            "gay" => "yes",
-            "lesbian" => "yes",
-            "bi" => "yes",
-            "pan" => "yes",
-            "ace" => "yes",
-            "trans" => "yes",
-            "cis" => "yes",
-            "lgbtphobia" => "nope",
-            "homophobia" => "nope",
-            "homophobes" => "nope",
-            "transphobia" => "nope",
-            "transphobes" => "nope",
-            "biphobia" => "nope",
-            "biphobes" => "nope",
-            "trump" => "nope",
-            _ => "idk",
+            "lgbt" => Some(true),
+            "lgbt+" => Some(true),
+            "lgbtq" => Some(true),
+            "lgbtq+" => Some(true),
+            "lgbtqi" => Some(true),
+            "lgbtqi+" => Some(true),
+            "lgbtqia" => Some(true),
+            "lgbtqia+" => Some(true),
+            "gay" => Some(true),
+            "lesbian" => Some(true),
+            "bi" => Some(true),
+            "pan" => Some(true),
+            "ace" => Some(true),
+            "trans" => Some(true),
+            "cis" => Some(true),
+            "lgbtphobia" => Some(false),
+            "homophobia" => Some(false),
+            "homophobes" => Some(false),
+            "transphobia" => Some(false),
+            "transphobes" => Some(false),
+            "biphobia" => Some(false),
+            "biphobes" => Some(false),
+            "trump" => Some(false),
+            _ => None,
         });
     }
     HttpResponse::Ok().json(results)
