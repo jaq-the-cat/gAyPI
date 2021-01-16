@@ -3,6 +3,7 @@
 */
 
 use actix_web::*;
+use std::collections::HashMap;
 
 mod errors;
 mod flags;
@@ -44,11 +45,26 @@ async fn sexuality(sxs: web::Json<Vec<String>>) -> impl Responder {
     HttpResponse::Ok().json(response)
 }
 
+#[get("/rights")]
+async fn rights(who: web::Json<Vec<String>>) -> impl Responder {
+    let mut json: HashMap<&str, &str> = HashMap::new();
+    for el in who.iter() {
+        json.insert(&el[..], "all");
+    }
+    HttpResponse::Ok().json(json)
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     println!("Starting gAyPI server");
-    HttpServer::new(|| App::new().service(hi).service(gender).service(sexuality))
-        .bind(("127.0.0.1", 8000))?
-        .run()
-        .await
+    HttpServer::new(|| {
+        App::new()
+            .service(hi)
+            .service(gender)
+            .service(sexuality)
+            .service(rights)
+    })
+    .bind(("127.0.0.1", 8000))?
+    .run()
+    .await
 }
