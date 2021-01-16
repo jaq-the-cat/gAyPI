@@ -59,25 +59,29 @@ async fn rights(who: web::Json<Vec<String>>) -> impl Responder {
 }
 
 #[get("/isgood")]
-async fn is_good(what: web::Json<String>) -> impl Responder {
-    return HttpResponse::Ok().json(match &what[..] {
-        "lgbt" => "yes",
-        "lgbt+" => "yes",
-        "lgbtq" => "yes",
-        "lgbtq+" => "yes",
-        "lgbtqi" => "yes",
-        "lgbtqi+" => "yes",
-        "lgbtqia" => "yes",
-        "lgbtqia+" => "yes",
-        "gay" => "yes",
-        "lesbian" => "yes",
-        "bi" => "yes",
-        "pan" => "yes",
-        "ace" => "yes",
-        "trans" => "yes",
-        "cis" => "yes",
-        _ => "idk",
-    });
+async fn is_good(what: web::Json<Vec<String>>) -> impl Responder {
+    let mut results: Vec<&str> = Vec::new();
+    for thing in what.iter() {
+        results.push(match &thing[..] {
+            "lgbt" => "yes",
+            "lgbt+" => "yes",
+            "lgbtq" => "yes",
+            "lgbtq+" => "yes",
+            "lgbtqi" => "yes",
+            "lgbtqi+" => "yes",
+            "lgbtqia" => "yes",
+            "lgbtqia+" => "yes",
+            "gay" => "yes",
+            "lesbian" => "yes",
+            "bi" => "yes",
+            "pan" => "yes",
+            "ace" => "yes",
+            "trans" => "yes",
+            "cis" => "yes",
+            _ => "idk",
+        });
+    }
+    HttpResponse::Ok().json(results)
 }
 
 #[actix_web::main]
