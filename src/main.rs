@@ -58,6 +58,11 @@ async fn rights(who: web::Json<Vec<String>>) -> impl Responder {
     HttpResponse::Ok().json(json)
 }
 
+#[get("/lgbtisgood")]
+async fn lgbt_is_good(_who: web::Json<String>) -> impl Responder {
+    HttpResponse::Ok().json(true)
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     println!("Starting gAyPI server");
