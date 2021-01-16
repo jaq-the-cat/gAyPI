@@ -62,7 +62,7 @@ async fn rights(who: web::Json<Vec<String>>) -> impl Responder {
 async fn is_good(what: web::Json<Vec<String>>) -> impl Responder {
     let mut results: Vec<&str> = Vec::new();
     for thing in what.iter() {
-        results.push(match &thing[..] {
+        results.push(match &thing.to_lowercase()[..] {
             "lgbt" => "yes",
             "lgbt+" => "yes",
             "lgbtq" => "yes",
@@ -78,6 +78,14 @@ async fn is_good(what: web::Json<Vec<String>>) -> impl Responder {
             "ace" => "yes",
             "trans" => "yes",
             "cis" => "yes",
+            "lgbtphobia" => "nope",
+            "homophobia" => "nope",
+            "homophobes" => "nope",
+            "transphobia" => "nope",
+            "transphobes" => "nope",
+            "biphobia" => "nope",
+            "biphobes" => "nope",
+            "trump" => "nope",
             _ => "idk",
         });
     }
